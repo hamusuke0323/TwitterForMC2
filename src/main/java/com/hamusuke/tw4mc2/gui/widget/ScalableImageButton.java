@@ -2,6 +2,7 @@ package com.hamusuke.tw4mc2.gui.widget;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
@@ -53,6 +54,7 @@ public class ScalableImageButton extends Button {
             i += this.hoveredVOffset;
         }
 
+        Minecraft.getInstance().textureManager.bind(this.texture);
         matrices.translate(this.x, this.y, 0.0F);
         matrices.scale(this.scale, this.scale, this.scale);
         blit(matrices, 0, 0, (float) this.u, (float) i, this.renderWidth, this.renderHeight, this.textureWidth, this.textureHeight);

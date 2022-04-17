@@ -27,6 +27,7 @@ public class TweetFrame extends AbstractGui implements IGuiEventListener {
     private final Video video;
     @Nullable
     private final QuotedTweet quotedTweet;
+    private final Buttons buttons;
     private final int height;
 
     public TweetFrame(AbstractTwitterScreen twitterScreen, TweetSummary tweetSummary, int rowWidth) {
@@ -42,6 +43,7 @@ public class TweetFrame extends AbstractGui implements IGuiEventListener {
         this.quotedTweet = this.register(this.main.getQuotedTweetSummary() == null ? null : new QuotedTweet(this, this.main.getQuotedTweetSummary(), rowWidth));
         this.photos = this.register(new Photos(this, this.main, rowWidth));
         this.video = this.register(this.main.isIncludeVideo() && !this.main.isVideoURLNull() ? new Video(this, this.main.getVideoURL(), rowWidth) : null);
+        this.buttons = this.register(new Buttons(this, this.main, rowWidth));
 
         MutableInt height = new MutableInt();
         this.pieces.forEach(piece -> height.add(piece.getHeight()));
@@ -73,6 +75,12 @@ public class TweetFrame extends AbstractGui implements IGuiEventListener {
         } else {
             y += this.photos.render(matrices, itemIndex, y, rowLeft, rowWidth, height2, mouseX, mouseY, isMouseOverAndObjectEquals, delta);
         }
+
+        if (this.quotedTweet != null) {
+            y += this.quotedTweet.render(matrices, itemIndex, y, rowLeft, rowWidth, height2, mouseX, mouseY, isMouseOverAndObjectEquals, delta);
+        }
+
+        this.buttons.render(matrices, itemIndex, y + 5, rowLeft, rowWidth, height2, mouseX, mouseY, isMouseOverAndObjectEquals, delta);
     }
 
     @Override

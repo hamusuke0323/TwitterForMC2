@@ -1,5 +1,6 @@
 package com.hamusuke.tw4mc2.gui.widget.tweet;
 
+import com.hamusuke.tw4mc2.gui.screen.twitter.TwitterShowStatusScreen;
 import com.hamusuke.tw4mc2.tweet.TweetSummary;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -23,7 +24,7 @@ public class QuotedTweet extends TweetFramePiece {
         this.photos = new Photos(parent, quotedTweetSummary, rowWidth);
         this.video = quotedTweetSummary.isVideoURLNull() ? null : new Video(parent, quotedTweetSummary.getVideoURL(), rowWidth);
 
-        this.height = this.icon.getHeight() + this.nameTime.getHeight() + this.mainText.getHeight() + (this.video == null ? this.photos.getHeight() : this.video.getHeight());
+        this.height = this.nameTime.getHeight() + this.mainText.getHeight() + (this.video == null ? this.photos.getHeight() : this.video.getHeight());
     }
 
     @Override
@@ -37,11 +38,11 @@ public class QuotedTweet extends TweetFramePiece {
             this.video.render(matrices, itemIndex, y, rowLeft, rowWidth, height2, mouseX, mouseY, isMouseOverAndObjectEquals, delta);
         }
 
-        return 0;
+        return this.height;
     }
 
     @Override
     protected void onClick(double x, double y, int button) {
-
+        this.minecraft.setScreen(new TwitterShowStatusScreen(this.parent.twitterScreen, this.summary));
     }
 }

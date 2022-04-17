@@ -64,9 +64,15 @@ public class Video extends TweetFramePiece {
         }
     }
 
+    public void pause() {
+        this.player.pause();
+    }
+
     @Override
     public void removed() {
         if (this.id >= 0) {
+            this.player.getTrueMediaPlayer().mediaPlayer().controls().stop();
+            this.player.getTrueMediaPlayer().release();
             MediaPlayers.removePlayer(this.id);
         }
     }

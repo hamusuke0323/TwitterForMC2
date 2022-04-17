@@ -378,6 +378,11 @@ public abstract class AbstractTwitterScreen extends ParentalScreen implements Re
         }
     }
 
+    @Override
+    public void removed() {
+        this.list.children().forEach(AbstractTwitterTweetList.AbstractTwitterListEntry::onRemove);
+    }
+
     protected class TweetList extends ExtendedTwitterTweetList<TweetList.ParentEntry> {
         @Nullable
         protected AbstractTwitterScreen.TweetList.TweetEntry hoveringEntry;
@@ -525,45 +530,6 @@ public abstract class AbstractTwitterScreen extends ParentalScreen implements Re
                 this.updateButtonY(this.fourBtnHeightOffset + this.y);
             }
 
-            /*
-            @Override
-            public void init() {
-                int i = AbstractTwitterScreen.TweetList.this.getRowLeft() + 24;
-                int h = AbstractTwitterScreen.TweetList.this.getRowWidth();
-                int j = (h - 64) / 3;
-
-                if (this.summary != null) {
-                    this.retweetButton$retweet = this.addOverlayButton(new Button(i + 5 - h / 4, this.fourBtnHeightOffset, h / 2, 20, bl ? new TranslationTextComponent("tw.unretweet") : new TranslationTextComponent("tw.retweet"), button -> {
-                        this.hideRetweetButtons();
-                        try {
-                            if (this.summary.isRetweeted()) {
-                                TwitterForMC.getInstance().mcTwitter.unRetweetStatus(this.summary.getId());
-                                this.summary.retweet(false);
-                                this.retweetButton$retweet.setMessage(new TranslationTextComponent("tw.retweet"));
-                                this.retweetButton.setImage(RETWEET);
-                                this.retweetButton.setWhenHovered(16);
-                                this.retweetButton.setSize(16, 32);
-                            } else {
-                                TwitterForMC.getInstance().mcTwitter.retweetStatus(this.summary.getId());
-                                this.summary.retweet(true);
-                                this.retweetButton$retweet.setMessage(new TranslationTextComponent("tw.unretweet"));
-                                this.retweetButton.setImage(RETWEETED);
-                                this.retweetButton.setWhenHovered(0);
-                                this.retweetButton.setSize(16, 16);
-                            }
-                        } catch (TwitterException e) {
-                            AbstractTwitterScreen.this.accept(new TranslationTextComponent("tw.failed.retweet", e.getErrorMessage()));
-                        }
-                    }));
-
-                    this.retweetButton$quoteRetweet = this.addOverlayButton(new FunctionalButtonWidget(i + 5 - h / 4, this.fourBtnHeightOffset + 20, h / 2, 20, new TranslationTextComponent("tw.quote.tweet"), button -> {
-                        this.hideRetweetButtons();
-
-                    }, integer -> integer + 20));
-                }
-            }
-            */
-
             @Override
             public void onRemove() {
                 this.frame.removed();
@@ -593,22 +559,6 @@ public abstract class AbstractTwitterScreen extends ParentalScreen implements Re
                 RenderSystem.enableBlend();
                 this.frame.renderFrame(matrices, itemIndex, rowTop, rowLeft, rowWidth, height2, mouseX, mouseY, isMouseOverAndObjectEquals, delta);
                 /*
-                if (this.quoteSourceSummary != null) {
-                    nowY += 10;
-                    ImageDataDeliverer qsIco = this.quoteSourceSummary.getUserIconData();
-                    if (qsIco.readyToRender()) {
-                        TwitterForMC.getTextureManager().bindTexture(qsIco.deliver());
-                        drawTexture(matrices, rowLeft + 24 + 5, nowY, 0.0F, 0.0F, 10, 10, 10, 10);
-                    }
-                    this.renderUserName(matrices, this.quoteSourceSummary, rowLeft + 24 + 5 + 10 + 4, nowY, AbstractTwitterScreen.TweetList.this.getRowWidth() - 24 - 5 - 10 - 4 - 10);
-                    for (int i = 0; i < this.quotedTweetStrings.size(); i++) {
-                        AbstractTwitterScreen.this.drawWithShadowAndEmoji(matrices, this.quotedTweetStrings.get(i), rowLeft + 24 + 5, nowY + 10 + i * AbstractTwitterScreen.this.font.fontHeight, 16777215);
-                    }
-                    nowY += 10 + this.quotedTweetStrings.size() * AbstractTwitterScreen.this.font.fontHeight;
-                }
-
-                this.renderButtons(matrices, mouseX, mouseY, delta);
-
                 if (this.summary != null) {
                     if (this.summary.getRetweetCount() != 0 && this.retweetButton != null) {
                         AbstractTwitterScreen.this.drawWithShadowAndEmoji(matrices, Text.of("" + this.summary.getRetweetCountF()), this.retweetButton.x + 16.0F, this.retweetButton.y, 11184810);
