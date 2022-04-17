@@ -47,14 +47,6 @@ public abstract class AbstractTwitterScreen extends ParentalScreen implements Re
 
     protected static final ResourceLocation PROTECTED = new ResourceLocation(TwitterForMC2.MOD_ID, "textures/twitter/icon/protected.png");
     protected static final ResourceLocation VERIFIED = new ResourceLocation(TwitterForMC2.MOD_ID, "textures/twitter/icon/verified.png");
-    protected static final ResourceLocation REPLY = new ResourceLocation(TwitterForMC2.MOD_ID, "textures/twitter/icon/reply.png");
-    protected static final ResourceLocation RETWEET = new ResourceLocation(TwitterForMC2.MOD_ID, "textures/twitter/icon/retweet.png");
-    protected static final ResourceLocation RETWEETED = new ResourceLocation(TwitterForMC2.MOD_ID, "textures/twitter/icon/retweeted.png");
-
-    protected static final ResourceLocation FAVORITE = new ResourceLocation(TwitterForMC2.MOD_ID, "textures/twitter/icon/favorite.png");
-    protected static final ResourceLocation FAVORITED = new ResourceLocation(TwitterForMC2.MOD_ID, "textures/twitter/icon/favorited.png");
-    protected static final ResourceLocation SHARE = new ResourceLocation(TwitterForMC2.MOD_ID, "textures/twitter/icon/share.png");
-
     protected static final ITextComponent FOLLOW = new TranslationTextComponent("tw.follow").withStyle(TextFormatting.GRAY);
     protected static final ITextComponent FOLLOWER = new TranslationTextComponent("tw.follower").withStyle(TextFormatting.GRAY);
     protected static final ITextComponent THREE_PERIOD = new StringTextComponent("...").withStyle(TextFormatting.BOLD);
