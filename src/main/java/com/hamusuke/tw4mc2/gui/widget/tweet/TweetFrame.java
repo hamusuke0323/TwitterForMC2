@@ -1,5 +1,6 @@
 package com.hamusuke.tw4mc2.gui.widget.tweet;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.hamusuke.tw4mc2.gui.screen.twitter.AbstractTwitterScreen;
 import com.hamusuke.tw4mc2.tweet.TweetSummary;
@@ -83,6 +84,26 @@ public class TweetFrame extends AbstractGui implements IGuiEventListener {
         }
 
         return bl;
+    }
+
+    @Override
+    public void mouseMoved(double p_212927_1_, double p_212927_3_) {
+        this.pieces.forEach(piece -> piece.mouseMoved(p_212927_1_, p_212927_3_));
+    }
+
+    @Override
+    public boolean mouseReleased(double p_231048_1_, double p_231048_3_, int p_231048_5_) {
+        boolean bl = false;
+
+        for (TweetFramePiece piece : this.pieces) {
+            bl = piece.mouseReleased(p_231048_1_, p_231048_3_, p_231048_5_);
+        }
+
+        return bl;
+    }
+
+    public ImmutableList<TweetFramePiece> getPiecesImmutable() {
+        return ImmutableList.copyOf(this.pieces);
     }
 
     public TweetSummary getMain() {

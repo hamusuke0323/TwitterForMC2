@@ -1,8 +1,10 @@
 package com.hamusuke.tw4mc2.gui.widget.tweet;
 
+import com.hamusuke.tw4mc2.gui.screen.DownloadTwitterVideoScreen;
 import com.hamusuke.tw4mc2.utils.TwitterUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.util.Util;
 import nick1st.fancyvideo.api.MediaPlayer;
 import nick1st.fancyvideo.api.MediaPlayers;
 
@@ -51,6 +53,15 @@ public class Video extends TweetFramePiece {
         matrices.popPose();
 
         return this.height;
+    }
+
+    @Override
+    protected void onClick(double x, double y, int button) {
+        if (button == 0) {
+            Util.getPlatform().openUri(this.url);
+        } else if (button == 1) {
+            this.minecraft.setScreen(new DownloadTwitterVideoScreen(this.parent.twitterScreen, this.parent.getMain()));
+        }
     }
 
     @Override

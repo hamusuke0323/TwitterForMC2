@@ -1,6 +1,7 @@
 package com.hamusuke.tw4mc2.gui.widget.tweet;
 
 import com.hamusuke.tw4mc2.TwitterForMC2;
+import com.hamusuke.tw4mc2.gui.screen.twitter.TwitterPhotoAndShowStatusScreen;
 import com.hamusuke.tw4mc2.tweet.TweetSummary;
 import com.hamusuke.tw4mc2.tweet.TwitterPhotoMedia;
 import com.hamusuke.tw4mc2.utils.TwitterUtil;
@@ -79,5 +80,59 @@ public class Photos extends TweetFramePiece {
         }
 
         return p.size() == 0 ? 0 : this.height;
+    }
+
+    @Override
+    protected void onClick(double x, double y, int button) {
+        int i = this.x;
+        int j = this.y;
+        int k = this.summary.getPhotoMediaLength();
+        int w2 = this.width / 2;
+        int h2 = this.height / 2;
+        boolean xMore = x >= i;
+        boolean yMore = y >= j;
+        boolean b = xMore && x <= i + this.width && yMore && y <= j + this.height;
+        boolean b1 = xMore && x <= i + w2 && yMore && y <= j + this.height;
+        boolean b2 = x >= i + w2 + 1 && x <= i + this.width && yMore && y <= j + h2;
+
+        if (k == 1) {
+            if (b) {
+                this.displayScreen(button, 0);
+            }
+        } else if (k == 2) {
+            if (b1) {
+                this.displayScreen(button, 0);
+            } else if (x >= i + w2 + 1 && x <= i + this.width && yMore && y <= j + this.height) {
+                this.displayScreen(button, 1);
+            }
+        } else if (k == 3) {
+            if (b1) {
+                this.displayScreen(button, 0);
+            } else if (b2) {
+                this.displayScreen(button, 1);
+            } else if (xMore && x <= i + this.width && y >= j + h2 + 1 && y <= j + this.height) {
+                this.displayScreen(button, 2);
+            }
+        } else if (k == 4) {
+            if (xMore && x <= i + w2 && yMore && y <= j + h2) {
+                this.displayScreen(button, 0);
+            } else if (b2) {
+                this.displayScreen(button, 1);
+            } else if (xMore && x <= i + w2 && y >= j + h2 + 1 && y <= j + this.height) {
+                this.displayScreen(button, 2);
+            } else if (x >= i + w2 + 1 && x <= i + this.width && y >= j + h2 + 1 && y <= j + this.height) {
+                this.displayScreen(button, 3);
+            }
+        }
+    }
+
+    protected boolean displayScreen(int mouseButton, int index) {
+        if (mouseButton == 0) {
+            this.minecraft.setScreen(new TwitterPhotoAndShowStatusScreen(this.parent.twitterScreen, this.parent.getMain(), index));
+        } else if (mouseButton == 1) {
+            //TODO save picture action;
+        }
+
+        return true;
     }
 }

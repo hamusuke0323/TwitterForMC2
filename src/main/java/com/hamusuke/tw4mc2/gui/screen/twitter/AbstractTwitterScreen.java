@@ -3,12 +3,10 @@ package com.hamusuke.tw4mc2.gui.screen.twitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.hamusuke.tw4mc2.TwitterForMC2;
-import com.hamusuke.tw4mc2.gui.screen.DownloadTwitterVideoScreen;
 import com.hamusuke.tw4mc2.gui.screen.ParentalScreen;
 import com.hamusuke.tw4mc2.gui.screen.ReturnableGame;
 import com.hamusuke.tw4mc2.gui.widget.FunctionalButtonWidget;
 import com.hamusuke.tw4mc2.gui.widget.MessageWidget;
-import com.hamusuke.tw4mc2.gui.widget.TwitterButton;
 import com.hamusuke.tw4mc2.gui.widget.list.AbstractTwitterTweetList;
 import com.hamusuke.tw4mc2.gui.widget.list.ExtendedTwitterTweetList;
 import com.hamusuke.tw4mc2.gui.widget.tweet.TweetFrame;
@@ -27,7 +25,6 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.ClickEvent;
@@ -506,17 +503,9 @@ public abstract class AbstractTwitterScreen extends ParentalScreen implements Re
             protected int photoRenderingWidth;
             protected int photoRenderingHeight;
             @Nullable
-            protected TwitterButton replyButton;
-            @Nullable
-            protected TwitterButton retweetButton;
-            @Nullable
             protected Button retweetButton$retweet;
             @Nullable
             protected Button retweetButton$quoteRetweet;
-            @Nullable
-            protected TwitterButton favoriteButton;
-            @Nullable
-            protected TwitterButton shareButton;
             protected int fourBtnHeightOffset;
             private final TweetFrame frame;
 
@@ -544,19 +533,6 @@ public abstract class AbstractTwitterScreen extends ParentalScreen implements Re
                 int j = (h - 64) / 3;
 
                 if (this.summary != null) {
-                    this.replyButton = this.addButton(new TwitterButton(i, this.fourBtnHeightOffset, 10, 10, 0, 0, 16, REPLY, 16, 32, 16, 16, (p) -> {
-                        AbstractTwitterScreen.this.minecraft.setScreen(new TwitterReplyScreen(AbstractTwitterScreen.this, this.summary));
-                    }));
-
-                    i += j;
-
-                    boolean bl = this.summary.isRetweeted();
-                    this.retweetButton = this.addButton(new TwitterButton(i, this.fourBtnHeightOffset, 10, 10, 0, 0, bl ? 0 : 16, bl ? RETWEETED : RETWEET, 16, bl ? 16 : 32, 16, 16, (p) -> {
-                        if (!this.summary.getUser().isProtected()) {
-                            this.showRetweetButtons();
-                        }
-                    }));
-
                     this.retweetButton$retweet = this.addOverlayButton(new Button(i + 5 - h / 4, this.fourBtnHeightOffset, h / 2, 20, bl ? new TranslationTextComponent("tw.unretweet") : new TranslationTextComponent("tw.retweet"), button -> {
                         this.hideRetweetButtons();
                         try {
@@ -584,37 +560,6 @@ public abstract class AbstractTwitterScreen extends ParentalScreen implements Re
                         this.hideRetweetButtons();
 
                     }, integer -> integer + 20));
-
-                    this.hideRetweetButtons();
-
-                    i += j;
-
-                    this.favoriteButton = this.addButton(new TwitterButton(i, this.fourBtnHeightOffset, 10, 10, 0, 0, this.summary.isFavorited() ? 0 : 16, this.summary.isFavorited() ? FAVORITED : FAVORITE, 16, this.summary.isFavorited() ? 16 : 32, 16, 16, (b) -> {
-                        try {
-                            if (this.summary.isFavorited()) {
-                                TwitterForMC.getInstance().mcTwitter.destroyFavorite(this.summary.getId());
-                                this.summary.favorite(false);
-                                ((ChangeableImageButton) b).setImage(FAVORITE);
-                                ((ChangeableImageButton) b).setWhenHovered(16);
-                                ((ChangeableImageButton) b).setSize(16, 32);
-                            } else {
-                                TwitterForMC.getInstance().mcTwitter.createFavorite(this.summary.getId());
-                                this.summary.favorite(true);
-                                ((ChangeableImageButton) b).setImage(FAVORITED);
-                                ((ChangeableImageButton) b).setWhenHovered(0);
-                                ((ChangeableImageButton) b).setSize(16, 16);
-                            }
-                        } catch (TwitterException e) {
-                            AbstractTwitterScreen.this.accept(new TranslationTextComponent("tw.failed.like", e.getErrorMessage()));
-                        }
-                    }));
-
-                    i += j;
-
-                    this.shareButton = this.addButton(new TwitterButton(i, this.fourBtnHeightOffset, 10, 10, 0, 0, 16, SHARE, 16, 32, 16, 16, (p) -> {
-                        AbstractTwitterScreen.this.minecraft.keyboardHandler.setClipboard(this.summary.getTweetURL());
-                        AbstractTwitterScreen.this.accept(new TranslationTextComponent("tw.copy.tweeturl.to.clipboard"));
-                    }));
                 }
             }
             */
@@ -677,56 +622,8 @@ public abstract class AbstractTwitterScreen extends ParentalScreen implements Re
 
             @Override
             public boolean mouseClicked(double x, double y, int button) {
-                /*
-                    int i = AbstractTwitterScreen.TweetList.this.getRowLeft() + 24;
-                    int j = this.y + this.retweetedUserNameHeight + 11 + this.strings.size() * AbstractTwitterScreen.this.font.lineHeight;
-                    int k = this.summary.getPhotoMediaLength();
-                    int w2 = this.photoRenderingWidth / 2;
-                    int h2 = this.photoRenderingHeight / 2;
-                    boolean xMore = x >= i;
-                    boolean yMore = y >= j;
-                    boolean b = xMore && x <= i + this.photoRenderingWidth && yMore && y <= j + this.photoRenderingHeight;
-                    boolean b1 = xMore && x <= i + w2 && yMore && y <= j + this.photoRenderingHeight;
-                    boolean b2 = x >= i + w2 + 1 && x <= i + this.photoRenderingWidth && yMore && y <= j + h2;
+                this.frame.mouseClicked(x, y, button);
 
-                    if (k == 1) {
-                        if (b) {
-                            return this.displayTwitterPhotoAndShowStatusScreen(button, 0);
-                        }
-                    } else if (k == 2) {
-                        if (b1) {
-                            return this.displayTwitterPhotoAndShowStatusScreen(button, 0);
-                        } else if (x >= i + w2 + 1 && x <= i + this.photoRenderingWidth && yMore && y <= j + this.photoRenderingHeight) {
-                            return this.displayTwitterPhotoAndShowStatusScreen(button, 1);
-                        }
-                    } else if (k == 3) {
-                        if (b1) {
-                            return this.displayTwitterPhotoAndShowStatusScreen(button, 0);
-                        } else if (b2) {
-                            return this.displayTwitterPhotoAndShowStatusScreen(button, 1);
-                        } else if (xMore && x <= i + this.photoRenderingWidth && y >= j + h2 + 1 && y <= j + this.photoRenderingHeight) {
-                            return this.displayTwitterPhotoAndShowStatusScreen(button, 2);
-                        }
-                    } else if (k == 4) {
-                        if (xMore && x <= i + w2 && yMore && y <= j + h2) {
-                            return this.displayTwitterPhotoAndShowStatusScreen(button, 0);
-                        } else if (b2) {
-                            return this.displayTwitterPhotoAndShowStatusScreen(button, 1);
-                        } else if (xMore && x <= i + w2 && y >= j + h2 + 1 && y <= j + this.photoRenderingHeight) {
-                            return this.displayTwitterPhotoAndShowStatusScreen(button, 2);
-                        } else if (x >= i + w2 + 1 && x <= i + this.photoRenderingWidth && y >= j + h2 + 1 && y <= j + this.photoRenderingHeight) {
-                            return this.displayTwitterPhotoAndShowStatusScreen(button, 3);
-                        }
-                    }
-
-
-
-                    if (this.frame.getMain().isIncludeVideo()) {
-                        if (b) {
-                            return this.videoClicked(button);
-                        }
-                    }
-*/
                 for (Widget w : this.buttons) {
                     if (w.mouseClicked(x, y, button)) {
                         return true;
@@ -749,27 +646,6 @@ public abstract class AbstractTwitterScreen extends ParentalScreen implements Re
                 int i = AbstractTwitterScreen.TweetList.this.getRowLeft();
                 int j = this.y + this.retweetedUserNameHeight;
                 return TweetList.this.top < y && TweetList.this.bottom > y && x > i && x < i + 16 && y > j && y < j + 16;
-            }
-
-            protected boolean displayTwitterPhotoAndShowStatusScreen(int mouseButton, int index) {
-                //AbstractTwitterScreen.this.minecraft.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-                if (mouseButton == 0) {
-                    AbstractTwitterScreen.this.minecraft.setScreen(new TwitterPhotoAndShowStatusScreen(AbstractTwitterScreen.this, this.frame.getMain(), index));
-                } else if (mouseButton == 1) {
-                    //TODO save picture action;
-                }
-
-                return true;
-            }
-
-            protected boolean videoClicked(int mouseButton) {
-                if (mouseButton == 0) {
-                    Util.getPlatform().openUri(this.frame.getMain().getVideoURL());
-                } else if (mouseButton == 1) {
-                    AbstractTwitterScreen.this.minecraft.setScreen(new DownloadTwitterVideoScreen(AbstractTwitterScreen.this, this.frame.getMain()));
-                }
-
-                return false;
             }
 
             @Override
