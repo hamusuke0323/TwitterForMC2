@@ -512,7 +512,7 @@ public abstract class AbstractTwitterScreen extends ParentalScreen implements Re
             @Nullable
             protected Button retweetButton$quoteRetweet;
             protected int fourBtnHeightOffset;
-            private final TweetFrame frame;
+            protected final TweetFrame frame;
 
             protected TweetEntry(TweetSummary tweet) {
                 this.frame = new TweetFrame(AbstractTwitterScreen.this, tweet, TweetList.this.getRowWidth());
@@ -572,7 +572,9 @@ public abstract class AbstractTwitterScreen extends ParentalScreen implements Re
 
             @Override
             public boolean mouseClicked(double x, double y, int button) {
-                this.frame.mouseClicked(x, y, button);
+                if (this.frame.mouseClicked(x, y, button)) {
+                    return true;
+                }
 
                 for (Widget w : this.buttons) {
                     if (w.mouseClicked(x, y, button)) {

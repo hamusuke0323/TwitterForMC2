@@ -88,7 +88,7 @@ public class TweetFrame extends AbstractGui implements IGuiEventListener {
         boolean bl = false;
 
         for (TweetFramePiece piece : this.pieces) {
-            bl = piece.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_);
+            bl = bl || piece.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_);
         }
 
         return bl;
@@ -104,7 +104,7 @@ public class TweetFrame extends AbstractGui implements IGuiEventListener {
         boolean bl = false;
 
         for (TweetFramePiece piece : this.pieces) {
-            bl = piece.mouseReleased(p_231048_1_, p_231048_3_, p_231048_5_);
+            bl = bl || piece.mouseReleased(p_231048_1_, p_231048_3_, p_231048_5_);
         }
 
         return bl;

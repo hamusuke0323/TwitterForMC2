@@ -40,5 +40,16 @@ public class WidgetList extends ExtendedList<WidgetList.AbstractButtonEntry> {
                 button.render(matrices, mouseX, mouseY, tickDelta);
             });
         }
+
+        @Override
+        public boolean mouseClicked(double p_231044_1_, double p_231044_3_, int p_231044_5_) {
+            for (Widget widget : this.buttons) {
+                if (widget.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

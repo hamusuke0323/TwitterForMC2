@@ -28,4 +28,9 @@ public class MainText extends TweetFramePiece {
 
         return this.height;
     }
+
+    @Override
+    public boolean mouseClicked(double p_231044_1_, double p_231044_3_, int p_231044_5_) {
+        return false;
+    }
 }

@@ -29,8 +29,12 @@ public class QuotedTweet extends TweetFramePiece {
 
     @Override
     public int render(MatrixStack matrices, int itemIndex, int y, int rowLeft, int rowWidth, int height2, int mouseX, int mouseY, boolean isMouseOverAndObjectEquals, float delta) {
-        this.icon.render(matrices, itemIndex, y, rowLeft, rowWidth, height2, mouseX, mouseY, isMouseOverAndObjectEquals, delta);
-        y += this.nameTime.render(matrices, itemIndex, y, rowLeft, rowWidth, height2, mouseX, mouseY, isMouseOverAndObjectEquals, delta);
+        this.x = rowLeft;
+        this.y = y;
+        this.width = rowWidth - 24;
+
+        this.icon.render(matrices, itemIndex, y, rowLeft + 24, rowWidth, height2, mouseX, mouseY, isMouseOverAndObjectEquals, delta);
+        y += this.nameTime.render(matrices, itemIndex, y, rowLeft + 10, rowWidth, height2, mouseX, mouseY, isMouseOverAndObjectEquals, delta);
         y += this.mainText.render(matrices, itemIndex, y, rowLeft, rowWidth, height2, mouseX, mouseY, isMouseOverAndObjectEquals, delta);
         if (this.video == null) {
             this.photos.render(matrices, itemIndex, y, rowLeft, rowWidth, height2, mouseX, mouseY, isMouseOverAndObjectEquals, delta);

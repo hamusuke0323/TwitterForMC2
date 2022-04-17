@@ -154,8 +154,17 @@ public class Buttons extends TweetFramePiece {
     }
 
     @Override
-    protected void onClick(double x, double y, int button) {
-        this.twButtons.forEach(b -> b.mouseClicked(x, y, button));
-        this.overlayButtons.forEach(b -> b.mouseClicked(x, y, button));
+    public boolean mouseClicked(double p_231044_1_, double p_231044_3_, int p_231044_5_) {
+        boolean bl = false;
+
+        for (Button button : this.twButtons) {
+            bl = bl || button.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_);
+        }
+
+        for (Button button : this.overlayButtons) {
+            bl = bl || button.mouseClicked(p_231044_1_, p_231044_3_, p_231044_5_);
+        }
+
+        return bl;
     }
 }
