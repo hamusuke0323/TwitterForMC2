@@ -1,4 +1,4 @@
-# Twitter for Minecraft 2
+# Twitter for MC 2
 Description is in preparation...
 
 This mod includes the work that is distributed in [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)
