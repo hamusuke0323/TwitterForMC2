@@ -135,6 +135,8 @@ public class Buttons extends TweetFramePiece {
         this.favorite.x = rowLeft + i * 2;
         this.share.x = rowLeft + i * 3;
 
+        this.ret$retweet.x = this.ret$quote.x = this.retweet.x - this.ret$retweet.getWidth() / 2;
+
         this.twButtons.forEach(button -> {
             button.y = y;
             button.render(matrices, mouseX, mouseY, delta);

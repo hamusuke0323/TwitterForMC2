@@ -97,7 +97,7 @@ public final class TwitterForMC2 {
     }
 
     public static void addMessage(String msg) {
-        StartupMessageManager.addModMessage("Twitter for Minecraft 2: " + msg);
+        StartupMessageManager.addModMessage("Twitter for MC 2: " + msg);
     }
 
     @SubscribeEvent
