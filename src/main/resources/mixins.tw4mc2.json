@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.hamusuke.tw4mc2.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MinecraftMixin",
+    "TextHandlerMixin",
+    "TextRendererMixin",
+    "TitleScreenMixin"
+  ],
+  "refmap": "mixins.tw4mc2.refmap.json"
+}
